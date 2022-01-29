@@ -21,6 +21,7 @@ public class PlayersController : MonoBehaviour
     private float minAntiCheatDelay = 0.1f;
     private float currentAntiCheatTime = 0f;
 
+
     void Start() {
         secondPlayer = Instantiate(secondPlayerPrefab, pathController.GetNextPosition(), Quaternion.identity);
         firstPlayer = Instantiate(firstPlayerPrefab, secondPlayer.transform.position - Vector3.back * Constants.wayPointsDistance, Quaternion.identity);
@@ -32,14 +33,30 @@ public class PlayersController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UpdateCurrentTime();
         UpdateAntiCheat();
         MoveCamera();
+        RotatePlayer();
         CheckInput();
     }
 
+    private void UpdateCurrentTime() {
+        var scale = new Vector3(Time.deltaTime * 0.05f, Time.deltaTime * 0.05f, Time.deltaTime * 0.05f);
+        otherPlayer.transform.localScale = otherPlayer.transform.localScale + scale;
+        currentPlayer.transform.localScale = currentPlayer.transform.localScale - scale;
+    }
+
     private void MoveCamera() {
-        currentPlayer.transform.RotateAround(otherPlayer.transform.position, Vector3.right, spinSpeed * Time.deltaTime);
         Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, otherPlayer.transform.position + Vector3.right * 7, 0.1f);
+    }
+
+    private void RotatePlayer() {
+        if (currentPlayer.transform.position.x != nextPosition.x) {
+            currentPlayer.transform.RotateAround(otherPlayer.transform.position, Vector3.up, spinSpeed * Time.deltaTime);
+        } else {
+            currentPlayer.transform.RotateAround(otherPlayer.transform.position, Vector3.right, spinSpeed * Time.deltaTime);
+        }
+        currentPlayer.transform.rotation = Quaternion.identity;
     }
 
     private void CheckInput() {

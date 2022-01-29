@@ -9,7 +9,7 @@ public enum PathDirection {
 
 public static class PathMaker {
 
-    private static PathDirection[] PathDirections = { PathDirection.FORWARD, PathDirection.UP, PathDirection.DOWN };
+    private static PathDirection[] PathDirections = { PathDirection.FORWARD, PathDirection.LEFT, PathDirection.RIGHT };
 
     //Tracking the opposite direction, cause we can't go back
     private static Dictionary<PathDirection, PathDirection> OppositeDirections = new() {
