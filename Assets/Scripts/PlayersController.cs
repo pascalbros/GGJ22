@@ -38,6 +38,7 @@ public class PlayersController : MonoBehaviour
         MoveCamera();
         RotatePlayer();
         CheckInput();
+        Debug.Log(currentAntiCheatTime);
     }
 
     private void UpdateCurrentTime() {
@@ -62,7 +63,7 @@ public class PlayersController : MonoBehaviour
     private void CheckInput() {
         if (!Keyboard.current.anyKey.wasPressedThisFrame) { return; }
         if (currentAntiCheatTime > 0f) { currentAntiCheatTime = minAntiCheatDelay; return; }
-        //currentAntiCheatTime = minAntiCheatDelay;
+        currentAntiCheatTime = minAntiCheatDelay;
         if (!IsCurrentPlayerAligned()) { return; }
         currentPlayer.transform.position = nextPosition;
         var temp = currentPlayer;
