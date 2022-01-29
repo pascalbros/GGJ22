@@ -27,7 +27,7 @@ public class PathController : MonoBehaviour {
     }
 
     private void CheckIndex() {
-        if (path.Count <= maxIndex) {
+        if (path.Count <= maxIndex * 2) {
             AppendToPath(path[^1] + Vector3.forward * Constants.wayPointsDistance);
         }
     }

@@ -47,7 +47,7 @@ public class PlayersController : MonoBehaviour
     }
 
     private void MoveCamera() {
-        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, otherPlayer.transform.position + Vector3.right * 7, 0.1f);
+        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, otherPlayer.transform.position + new Vector3(7, -2, 0), 0.1f);
     }
 
     private void RotatePlayer() {
@@ -62,7 +62,7 @@ public class PlayersController : MonoBehaviour
     private void CheckInput() {
         if (!Keyboard.current.anyKey.wasPressedThisFrame) { return; }
         if (currentAntiCheatTime > 0f) { currentAntiCheatTime = minAntiCheatDelay; return; }
-        currentAntiCheatTime = minAntiCheatDelay;
+        //currentAntiCheatTime = minAntiCheatDelay;
         if (!IsCurrentPlayerAligned()) { return; }
         currentPlayer.transform.position = nextPosition;
         var temp = currentPlayer;
