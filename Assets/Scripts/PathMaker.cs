@@ -9,7 +9,7 @@ public enum PathDirection {
 
 public static class PathMaker {
 
-    private static PathDirection[] PathDirections = { PathDirection.FORWARD, PathDirection.UP, PathDirection.DOWN, PathDirection.LEFT, PathDirection.RIGHT };
+    private static PathDirection[] PathDirections = { PathDirection.FORWARD, PathDirection.UP, PathDirection.DOWN };
 
     //Tracking the opposite direction, cause we can't go back
     private static Dictionary<PathDirection, PathDirection> OppositeDirections = new() {
@@ -72,26 +72,26 @@ public static class PathMaker {
     }
 
     private static Vector3 Forward(Vector3 from, float distance) {
-        return from + new Vector3(0, 0, distance);
+        return from + (Vector3.forward * distance);
     }
 
     private static Vector3 Backward(Vector3 from, float distance) {
-        return from + new Vector3(0, 0, -distance);
+        return from + (Vector3.back * distance);
     }
 
     private static Vector3 Up(Vector3 from, float distance) {
-        return from + new Vector3(0, distance, 0);
+        return from + (Vector3.up * distance);
     }
 
     private static Vector3 Down(Vector3 from, float distance) {
-        return from + new Vector3(0, -distance, 0);
+        return from + (Vector3.down * distance);
     }
 
     private static Vector3 Left(Vector3 from, float distance) {
-        return from + new Vector3(distance, 0, 0);
+        return from + (Vector3.left * distance);
     }
 
     private static Vector3 Right(Vector3 from, float distance) {
-        return from + new Vector3(-distance, 0, 0);
+        return from + (Vector3.right * distance);
     }
 }
