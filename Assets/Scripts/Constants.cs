@@ -6,5 +6,5 @@ public static class Constants
 {
     public static float wayPointsDistance = 2f;
     public static Vector3 initialPosition = Vector3.zero;
-    public static int maxWaypoints = 20;
+    public static int maxWaypoints = 100;
 }
