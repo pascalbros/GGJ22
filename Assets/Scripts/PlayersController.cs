@@ -33,11 +33,12 @@ public class PlayersController : MonoBehaviour
         currentPlayer = firstPlayer;
         otherPlayer = secondPlayer;
         nextPosition = pathController.GetNextPosition();
+        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, otherPlayer.transform.position + new Vector3(0, 0, -0.4f), 0.08f);
     }
 
     void Update() {
         if (gameState == GameState.NOT_STARTED) {
-            CheckInput();
+            CheckNotStarted();
             MoveCamera();
         } else if (gameState == GameState.STARTED) {
             //UpdateCurrentTime();
@@ -47,6 +48,11 @@ public class PlayersController : MonoBehaviour
             CheckInput();
             CheckPlayersHealth();
         }
+    }
+
+    private void CheckNotStarted() {
+        if (!Keyboard.current.aKey.wasPressedThisFrame) { return; }
+        gameState = GameState.STARTED;
     }
 
     private void UpdateCurrentTime() {
@@ -76,9 +82,6 @@ public class PlayersController : MonoBehaviour
             if (!Keyboard.current.lKey.wasPressedThisFrame) { return; }
         }
         if (currentAntiCheatTime > 0f) { currentAntiCheatTime = minAntiCheatDelay; return; }
-        if (gameState == GameState.NOT_STARTED) {
-            gameState = GameState.STARTED;
-        }
         currentAntiCheatTime = minAntiCheatDelay;
         if (!IsCurrentPlayerAligned()) { return; }
         currentPlayer.transform.position = nextPosition;
