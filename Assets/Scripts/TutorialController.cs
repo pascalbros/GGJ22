@@ -17,8 +17,8 @@ public class TutorialController : MonoBehaviour
                 GetComponent<TextMeshProUGUI>().text = "Again, press A when the planet reaches the waypoint";
             }
         } else {
-            GetComponent<TextMeshProUGUI>().text = "Now Player 2, press L to Start";
-            if (Keyboard.current.lKey.wasPressedThisFrame) {
+            GetComponent<TextMeshProUGUI>().text = "Now Player 2, press L when the plane reaches the waypoint";
+            if (PathController.shared.GetPassedWaypoints() == 4) {
                 Destroy(gameObject);
             }
         }
