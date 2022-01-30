@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 enum GameState {
     NOT_STARTED, STARTED, ENDED
@@ -47,6 +48,19 @@ public class PlayersController : MonoBehaviour
             RotatePlayer();
             CheckInput();
             CheckPlayersHealth();
+        } else if (gameState == GameState.ENDED) {
+            CheckEndingAnimation();
+        }
+    }
+
+    private void CheckEndingAnimation() {
+        if (firstPlayer.finishedLastAnimation || secondPlayer.finishedLastAnimation) {
+            if (firstPlayer.finishedLastAnimation) {
+                EndController.playerOneWins = true;
+            } else if (secondPlayer.finishedLastAnimation) {
+                EndController.playerOneWins = false;
+            }
+            SceneManager.LoadScene("End", LoadSceneMode.Single);
         }
     }
 
@@ -103,7 +117,7 @@ public class PlayersController : MonoBehaviour
     }
 
     private void CheckPlayersHealth() {
-        if (currentPlayer.GetHealth() <= 0f || pathController.GetPassedWaypoints() == Constants.maxWaypoints - 1) {
+        if (currentPlayer.GetHealth() <= 0f || pathController.GetPassedWaypoints() == Constants.maxWaypoints) {
             gameState = GameState.ENDED;
             WinnerAnimation();
         }
@@ -111,13 +125,12 @@ public class PlayersController : MonoBehaviour
 
     private void WinnerAnimation() {
         if (firstPlayer.GetHealth() > secondPlayer.GetHealth()) {
-
+            secondPlayer.Explode();
+            firstPlayer.Grow();
         } else if (firstPlayer.GetHealth() < secondPlayer.GetHealth()) {
-
-        } else {
-
+            firstPlayer.Explode();
+            secondPlayer.Grow();
         }
-        Debug.Log("Cmon baby, do the animation");
     }
 
     static void RotateAround(Transform transform, Vector3 pivotPoint, Vector3 axis, float angle) {

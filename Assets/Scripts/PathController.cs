@@ -25,6 +25,7 @@ public class PathController : MonoBehaviour {
         }
         //CheckIndex();
         passedWaypoints++;
+        if (path.Count == 0) { return Vector3.zero; } 
         return path[0];
     }
 
