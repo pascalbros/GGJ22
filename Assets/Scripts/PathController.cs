@@ -6,26 +6,26 @@ public class PathController : MonoBehaviour {
     public GameObject wayPointPrefab;
     private readonly List<Vector3> path = new();
     private readonly List<GameObject> waypoints = new();
-    private int currentIndex = -1;
     private readonly int maxIndex = 8;
     private int passedWaypoints = 0;
 
+    public static PathController shared;
+
     void Start()
     {
+        shared = this;
         AppendToPath(Constants.initialPosition);
     }
 
     public Vector3 GetNextPosition() {
-        if (currentIndex >= maxIndex) {
+        if (path.Count > 0) {
             Destroy(waypoints[0]);
             waypoints.RemoveAt(0);
             path.RemoveAt(0);
-        } else {
-            currentIndex++;
         }
         //CheckIndex();
         passedWaypoints++;
-        return path[currentIndex];
+        return path[0];
     }
 
     public int GetPassedWaypoints() {
@@ -45,8 +45,11 @@ public class PathController : MonoBehaviour {
             waypoints.Add(Instantiate(wayPointPrefab, position, Quaternion.identity, transform));
             if (isFirst) {
                 isFirst = false;
-                waypoints[^1].transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
             }
         }
+    }
+
+    private void OnDestroy() {
+        shared = null;
     }
 }

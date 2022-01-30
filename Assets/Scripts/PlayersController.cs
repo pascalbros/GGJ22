@@ -33,7 +33,7 @@ public class PlayersController : MonoBehaviour
         currentPlayer = firstPlayer;
         otherPlayer = secondPlayer;
         nextPosition = pathController.GetNextPosition();
-        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, otherPlayer.transform.position + new Vector3(0, 0, -0.4f), 0.08f);
+        Camera.main.transform.position = otherPlayer.transform.position + new Vector3(0, 0, -0.4f);
     }
 
     void Update() {
@@ -41,7 +41,7 @@ public class PlayersController : MonoBehaviour
             CheckNotStarted();
             MoveCamera();
         } else if (gameState == GameState.STARTED) {
-            //UpdateCurrentTime();
+            UpdateCurrentTime();
             UpdateAntiCheat();
             MoveCamera();
             RotatePlayer();
@@ -56,6 +56,7 @@ public class PlayersController : MonoBehaviour
     }
 
     private void UpdateCurrentTime() {
+        if (pathController.GetPassedWaypoints() <= 3) { return; }
         otherPlayer.UpdateWithElapsedTime(Time.deltaTime);
         currentPlayer.UpdateWithElapsedTime(-Time.deltaTime);
         otherPlayer.transform.localScale = otherPlayer.HealthToScale();
