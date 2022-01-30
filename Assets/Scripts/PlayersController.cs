@@ -41,7 +41,7 @@ public class PlayersController : MonoBehaviour
             CheckNotStarted();
             MoveCamera();
         } else if (gameState == GameState.STARTED) {
-            //UpdateCurrentTime();
+            UpdateCurrentTime();
             UpdateAntiCheat();
             MoveCamera();
             RotatePlayer();
